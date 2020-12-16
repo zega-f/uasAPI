@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// directory controller
 use App\Http\Controllers\userController;
 
 /*
@@ -24,11 +25,16 @@ Route::group(['middleware'=>'auth:api'],function(){
 	Route::get('coba2',[userController::class,'index']);
 });
 
-Route::get('coba',[userController::class,'index']);
-
+// Login Route
 Route::post('login', [userController::class,'login']);
+
+// Register Route
 Route::post('register',[userController::class,'register']);
 
+/*
+1. Route digroup dengan middleware auth agar route dibawah ini tidak dapat diakses apabila tidak memiliki token
+2. token didapat apabila user telah melakukan login
+3. apabila belum memiliki akun, user dapat register terlebih dahulu */
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('detail', [userController::class,'details']);
     Route::get('class', [userController::class,'allClass']);
