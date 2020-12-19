@@ -13,14 +13,14 @@ class userController extends Controller
 {
     public $successStatus = 200;
 
-    public function login(){
+    public function login(Request $request){
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             $success['token'] =  $user->createToken('nApp')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            return response()->json($success, $this->successStatus);
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Unauthorised'],401);
         }
     }
 
@@ -46,16 +46,24 @@ class userController extends Controller
         return response()->json(['success'=>$success], $this->successStatus);
     }
     
-    public function details()
+    public function details(Request $request)
     {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        $classDetail = DB::table('tblclass')
+        ->where('classID',$request->classID)
+        ->get();
+
+        // $classUser = DB::table('tblclassuser')
+        // ->join('tbluser','tblclassuser.userID','=','tbluser.userID')
+        // ->select('tblclassuser.classID','tbluser.userID','tbluser.userName','tbluser.userEmail')
+        // ->where('tblclassuser.classID',$request->classID)->get();
+        return response()->json($classDetail, $this->successStatus);
     }
 
     public function allClass()
     {
     	$allClass = DB::table('tblclass')->get();
-    	return response()->json(['success' => $allClass], $this->successStatus);
+    	// return response()->json(['success' => $allClass], $this->successStatus);
+        return response()->json($allClass, $this->successStatus);
     }
 
     public function classByID(Request $request)
