@@ -51,11 +51,6 @@ class userController extends Controller
         $classDetail = DB::table('tblclass')
         ->where('classID',$request->classID)
         ->get();
-
-        // $classUser = DB::table('tblclassuser')
-        // ->join('tbluser','tblclassuser.userID','=','tbluser.userID')
-        // ->select('tblclassuser.classID','tbluser.userID','tbluser.userName','tbluser.userEmail')
-        // ->where('tblclassuser.classID',$request->classID)->get();
         return response()->json($classDetail, $this->successStatus);
     }
 
