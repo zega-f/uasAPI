@@ -46,6 +46,7 @@ class userController extends Controller
         return response()->json(['success'=>$success], $this->successStatus);
     }
     
+    // untuk melihat detail kelas 
     public function details(Request $request)
     {
         $classDetail = DB::table('tblclass')
@@ -54,6 +55,7 @@ class userController extends Controller
         return response()->json($classDetail, $this->successStatus);
     }
 
+    // semua kelas yang ada dalam sistem pembelajaran
     public function allClass()
     {
     	$allClass = DB::table('tblclass')->get();
