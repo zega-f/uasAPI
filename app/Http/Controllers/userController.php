@@ -52,7 +52,12 @@ class userController extends Controller
         $classDetail = DB::table('tblclass')
         ->where('classID',$request->classID)
         ->get();
-        return response()->json($classDetail, $this->successStatus);
+        $classP = DB::table('tblclassuser')
+        ->join('tbluser','tblclassuser.userID','=','tbluser.userID')
+        ->select('tbluser.userName','tbluser.userEmail','tblclassuser.classID')
+        ->where('tblclassuser.classID',$request->classID)
+        ->get();
+        return response()->json(['class'=>$classDetail,'user'=>$classP], $this->successStatus);
     }
 
     // semua kelas yang ada dalam sistem pembelajaran
